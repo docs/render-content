@@ -11,6 +11,10 @@ const Entities = require('html-entities').XmlEntities
 const entities = new Entities()
 const stripHtmlComments = require('strip-html-comments')
 
+// used below to remove unwanted newlines
+const inlineTags = '(?:a|code|em)'
+const inlineTagRegex = new RegExp(`\n?(</?${inlineTags}>?)\n?`, 'gm')
+
 // parse multiple times because some templates contain more templates. :]
 module.exports = async function renderContent (
   template,
@@ -57,11 +61,8 @@ module.exports = async function renderContent (
 
     let { content: html } = await hubdown(template)
 
-    // Remove unwanted newlines (which appear as spaces)
-    // from links and inline code inside tables
-    html = html
-      .replace(/\n(<a|<code)/gm, '$1')
-      .replace(/(\/a>|\/code>)\n/gm, '$1')
+    // Remove unwanted newlines (which appear as spaces) from inline tags inside tables
+    html = html.replace(inlineTagRegex, '$1')
 
     if (options.textOnly) {
       html = cheerio
