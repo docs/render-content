@@ -133,4 +133,49 @@ test('renderContent', async t => {
     })
     t.equal(output, '&lt;p&gt;&lt;beep&gt;&lt;/beep&gt;&lt;/p&gt;')
   })
+
+  await t.test('does not render newlines around links in tables', async t => {
+    const template = `
+    | Keyboard shortcut | Description
+    |-----------|------------
+    |<kbd>g</kbd> <kbd>c</kbd> | Go to the **Code** tab
+    |<kbd>g</kbd> <kbd>i</kbd> | Go to the **Issues** tab. For more information, see "[About issues](/articles/about-issues)."
+    `
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.ok(
+      $.html().includes(
+        '&quot;<a href="/articles/about-issues">About issues</a>.&quot;'
+      )
+    )
+  })
+
+  await t.test(
+    'does not render newlines around inline code in tables',
+    async t => {
+      const template = `
+    | Package manager | formats |
+    | --- | --- |
+    | Python | \`requirements.txt\`, \`pipfile.lock\`
+    `
+      const html = await renderContent(template)
+      const $ = cheerio.load(html, { xmlMode: true })
+      t.ok(
+        $.html().includes(
+          '<code>requirements.txt</code>, <code>pipfile.lock</code>'
+        )
+      )
+    }
+  )
+
+  await t.test('does not render newlines around emphasis in code', async t => {
+    const template = `
+    | Qualifier        | Example
+    | ------------- | -------------
+    | <code>user:<em>USERNAME</em></code> | [**user:defunkt ubuntu**](https://github.com/search?q=user%3Adefunkt+ubuntu&type=Issues) matches issues with the word "ubuntu" from repositories owned by @defunkt.
+    `
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.ok($.html().includes('<code>user:<em>USERNAME</em></code>'))
+  })
 })
