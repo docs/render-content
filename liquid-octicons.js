@@ -11,7 +11,7 @@ const primerColors = {
 function replaceKeywords (match, p1, p2, p3) {
   const octicon = octicons[p1]
   if (!octicon) {
-    console.error(`No octicon found called '${p1}`)
+    console.error(`No octicon found called '${p1}'`)
     return
   }
   const options = {}

@@ -26,6 +26,22 @@ test('liquidRaw module', async t => {
 {---% endraw %---}`
       t.equal(obfuscate(input), output)
     })
+
+    await t.test('works on empty templates', async t => {
+      const input = null
+      const output = null
+      t.equal(obfuscate(input), output)
+    })
+
+    await t.test('works on templates with non-raw lines', async t => {
+      const input = `not raw
+{% raw %}{% endraw %}
+not raw`
+      const output = `not raw
+{---% raw %---}{---% endraw %---}
+not raw`
+      t.equal(obfuscate(input), output)
+    })
   })
 
   await t.test('deobfuscate(template)', async t => {
@@ -48,6 +64,22 @@ test('liquidRaw module', async t => {
   {{ foo.bar.baz }}
 {% endraw %}`
 
+      t.equal(deobfuscate(input), output)
+    })
+
+    await t.test('works on empty templates', async t => {
+      const input = null
+      const output = null
+      t.equal(deobfuscate(input), output)
+    })
+
+    await t.test('works on templates with non-raw lines', async t => {
+      const input = `not raw
+{---% raw %---}{---% endraw %---}
+not raw`
+      const output = `not raw
+{% raw %}{% endraw %}
+not raw`
       t.equal(deobfuscate(input), output)
     })
   })

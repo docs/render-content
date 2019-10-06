@@ -68,4 +68,69 @@ test('renderContent', async t => {
       t.equal($('ol > li').length, 3)
     }
   )
+
+  await t.test('renders text only', async t => {
+    const template = 'my favorite color is {{ color }}.'
+    const context = { color: 'orange' }
+    const output = await renderContent(template, context, { textOnly: true })
+    t.equal(output, 'my favorite color is orange.')
+  })
+
+  await t.test('throws on rendering errors', async t => {
+    const template = 1
+    const context = {}
+
+    let err
+
+    try {
+      await renderContent(template, context)
+    } catch (_err) {
+      err = _err
+    }
+
+    t.ok(err)
+  })
+
+  await t.test(
+    'warns and throws on rendering errors when the file name is passed',
+    async t => {
+      const template = 1
+      const context = {}
+
+      let err
+      let warned = false
+
+      const error = console.error
+      console.error = message => {
+        t.equal(message, 'renderContent failed on file: name')
+        console.error = error
+        warned = true
+      }
+
+      try {
+        await renderContent(template, context, { filename: 'name' })
+      } catch (_err) {
+        err = _err
+      }
+
+      t.ok(err)
+      t.ok(warned)
+    }
+  )
+
+  await t.test('renders empty templates', async t => {
+    const template = ''
+    const context = {}
+    const output = await renderContent(template, context)
+    t.equal(output, '')
+  })
+
+  await t.test('encodes entities', async t => {
+    const template = '<beep></beep>'
+    const context = {}
+    const output = await renderContent(template, context, {
+      encodeEntities: true
+    })
+    t.equal(output, '&lt;p&gt;&lt;beep&gt;&lt;/beep&gt;&lt;/p&gt;')
+  })
 })

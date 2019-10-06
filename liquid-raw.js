@@ -20,7 +20,7 @@ liquidRaw.obfuscate = template => {
       const rawBlocksStartsOnThisLine = /{% ?raw ?%}/.test(line)
       const rawBlockEndsOnThisLine = /{% ?endraw ?%}/.test(line)
       if (rawBlocksStartsOnThisLine) withinRawBlock = true
-      if (withinRawBlock || rawBlocksStartsOnThisLine) {
+      if (withinRawBlock) {
         line = line
           .replace(/{%/g, '{---%')
           .replace(/%}/g, '%---}')
@@ -46,7 +46,7 @@ liquidRaw.deobfuscate = template => {
       const rawBlocksStartsOnThisLine = /{---% ?raw ?%---}/.test(line)
       const rawBlockEndsOnThisLine = /{---% ?endraw ?%---}/.test(line)
       if (rawBlocksStartsOnThisLine) withinRawBlock = true
-      if (withinRawBlock || rawBlocksStartsOnThisLine) {
+      if (withinRawBlock) {
         line = line
           .replace(/{---%/g, '{%')
           .replace(/%---}/g, '%}')
