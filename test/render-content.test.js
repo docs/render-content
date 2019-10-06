@@ -142,4 +142,20 @@ test('renderContent', async t => {
     })
     t.equal(output, 'my favorite color is orange.')
   })
+
+  await t.test('throws if unwrapping multiple lines', async t => {
+    const template = 'my favorite color is {{ color }}.\noops'
+    const context = { color: 'orange' }
+    let err
+
+    try {
+      await renderContent(template, context, {
+        unwrap: true
+      })
+    } catch (_err) {
+      err = _err
+    }
+
+    t.match(err, /requires single line/)
+  })
 })

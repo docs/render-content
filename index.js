@@ -64,6 +64,9 @@ module.exports = async function renderContent (
       .replace(/(\/a>|\/code>)\n/gm, '$1')
 
     if (options.unwrap) {
+      if (html.split('\n').filter(Boolean).length > 1) {
+        throw new Error('.unwrap requires single line of html')
+      }
       html = html.replace(/^<\w+>/, '').replace(/<\/\w+>$/m, '')
     }
 
