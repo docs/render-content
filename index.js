@@ -63,6 +63,10 @@ module.exports = async function renderContent (
       .replace(/\n(<a|<code)/gm, '$1')
       .replace(/(\/a>|\/code>)\n/gm, '$1')
 
+    if (options.unwrap) {
+      html = html.replace(/^<\w+>/, '').replace(/<\/\w+>$/m, '')
+    }
+
     if (options.textOnly) {
       html = cheerio
         .load(html)

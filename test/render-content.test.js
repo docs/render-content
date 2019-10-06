@@ -133,4 +133,13 @@ test('renderContent', async t => {
     })
     t.equal(output, '&lt;p&gt;&lt;beep&gt;&lt;/beep&gt;&lt;/p&gt;')
   })
+
+  await t.test('unwraps', async t => {
+    const template = 'my favorite color is {{ color }}.'
+    const context = { color: 'orange' }
+    const output = await renderContent(template, context, {
+      unwrap: true
+    })
+    t.equal(output, 'my favorite color is orange.')
+  })
 })
