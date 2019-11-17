@@ -1,8 +1,8 @@
 {
   "name": "@github-docs/render-content",
-  "version": "0.0.0",
-  "description": "Markdown rendering pipeline",
-  "repository": "docs/render-content",
+  "version": "1.0.0",
+  "description": "Markdown and Liquid rendering pipeline",
+  "repository": "https://github.com/docs/render-content",
   "license": "MIT",
   "scripts": {
     "test": "prettier-standard '**/*.js' && standard && tap test/*.js && npm run test:deps",

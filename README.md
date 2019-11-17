@@ -1,6 +1,6 @@
 # @github-docs/render-content
 
-Markdown rendering pipeline for [https://github.com/github/help-docs](github/help-docs), powered by [Liquid](https://ghub.io/liquid) and [hubdown](https://ghub.io/hubdown).
+Markdown and Liquid rendering pipeline for Node.js
 
 ## Usage
 
