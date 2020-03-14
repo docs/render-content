@@ -3,7 +3,6 @@
 const liquid = require('./liquid')
 const hubdown = require('hubdown')
 const extendMarkdown = require('./extend-markdown')
-const whitespaceControl = require('./whitespace-control')
 const liquidRaw = require('./liquid-raw')
 const liquidOcticons = require('./liquid-octicons')
 const cheerio = require('cheerio')
@@ -36,8 +35,6 @@ module.exports = async function renderContent (
     if (template) {
       template = stripHtmlComments(template.replace(/\n<!--/g, '<!--'))
     }
-
-    template = whitespaceControl(template)
 
     // obfuscate {% raw %} blocks so they won't be 'overparsed'
     template = liquidRaw.obfuscate(template)
