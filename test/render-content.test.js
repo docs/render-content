@@ -178,4 +178,21 @@ test('renderContent', async t => {
     const $ = cheerio.load(html, { xmlMode: true })
     t.ok($.html().includes('<code>user:<em>USERNAME</em></code>'))
   })
+
+  await t.test('renders code blocks with # comments', async t => {
+    const template = `
+1. This is a list item with code containing a comment:
+  \`\`\`shell
+$ foo the bar
+# some comment here
+  \`\`\`
+1. This is another list item.
+    `
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    console.error($.html())
+    // t.equal($('ol').length, 1)
+    // t.notOk($.html().includes('<h1 id="some-comment-here">'))
+    // t.notOk($.html().includes('<a href="#some-comment-here">'))
+  })
 })
