@@ -191,6 +191,7 @@ $ foo the bar
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
     t.equal($('ol').length, 1)
+    t.ok($.html().includes('# some comment here'))
     t.notOk($.html().includes('<h1 id="some-comment-here">'))
     t.notOk($.html().includes('<a href="#some-comment-here">'))
   })
