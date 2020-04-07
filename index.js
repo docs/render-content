@@ -65,10 +65,6 @@ module.exports = async function renderContent (
       '<pre><code class="hljs language-shell">$1</code></pre>'
     )
 
-    // work around hubdown bug where # lines in pre blocks get turned into H1s
-    // see https://github.com/docs/render-content/issues/7
-    template = template.replace(/#/g, '&#x23;')
-
     // clean up empty lines in TOC lists left by unrendered list items (due to productVersions)
     // for example, remove the blank line here:
     //    - <a>foo</a>
