@@ -183,8 +183,8 @@ test('renderContent', async t => {
     const template = `
 1. This is a list item with code containing a comment:
   \`\`\`shell
-$ foo the bar
-# some comment here
+  $ foo the bar
+  # some comment here
   \`\`\`
 1. This is another list item.
     `
@@ -194,5 +194,46 @@ $ foo the bar
     t.ok($.html().includes('# some comment here'))
     t.notOk($.html().includes('<h1 id="some-comment-here">'))
     t.notOk($.html().includes('<a href="#some-comment-here">'))
+  })
+
+  await t.test('renders headings at the right level', async t => {
+    const template = `
+# This is a level one
+
+## This is a level two
+
+### This is a level three
+
+#### This is a level four
+
+##### This is a level five
+`
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.ok(
+      $.html().includes(
+        '<h1 id="this-is-a-level-one"><a href="#this-is-a-level-one">This is a level one</a></h1>'
+      )
+    )
+    t.ok(
+      $.html().includes(
+        '<h2 id="this-is-a-level-two"><a href="#this-is-a-level-two">This is a level two</a></h2>'
+      )
+    )
+    t.ok(
+      $.html().includes(
+        '<h3 id="this-is-a-level-three"><a href="#this-is-a-level-three">This is a level three</a></h3>'
+      )
+    )
+    t.ok(
+      $.html().includes(
+        '<h4 id="this-is-a-level-four"><a href="#this-is-a-level-four">This is a level four</a></h4>'
+      )
+    )
+    t.ok(
+      $.html().includes(
+        '<h5 id="this-is-a-level-five"><a href="#this-is-a-level-five">This is a level five</a></h5>'
+      )
+    )
   })
 })
