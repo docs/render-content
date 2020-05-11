@@ -48,7 +48,7 @@ The [Liquid](https://ghub.io/liquid) instance used internally.
 
 ### .liquidOcticons(string)
 
-Render [`Octicons`](https://ghubio/@primer/octicons) in `string`. Returns a `String`.
+Render [`Octicons`](https://ghub.io/@primer/octicons) in `string`. Returns a `String`.
 
 Examples:
 
