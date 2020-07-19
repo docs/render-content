@@ -69,6 +69,18 @@ test('renderContent', async t => {
     }
   )
 
+  await t.test("doesn't add paragraphs to lists with newlines", async t => {
+    const template = `
+1. item one
+
+1. item two`
+
+    const html = await renderContent(template)
+    console.log(html)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.equal($('ol p').length, 0)
+  })
+
   await t.test('renders text only', async t => {
     const template = 'my favorite color is {{ color }}.'
     const context = { color: 'orange' }
