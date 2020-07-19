@@ -77,7 +77,6 @@ test('renderContent', async t => {
 - <a>item two</a>`
 
     const html = await renderContent(template)
-    console.log(html)
     const $ = cheerio.load(html, { xmlMode: true })
     t.equal($('ol p').length, 0)
   })
