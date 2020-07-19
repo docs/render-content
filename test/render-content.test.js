@@ -71,9 +71,10 @@ test('renderContent', async t => {
 
   await t.test('removes extra newlines from lists of links', async t => {
     const template = `
-1. [item one](#)
+- <a>item one</a>
 
-1. [item two](#)`
+
+- <a>item two</a>`
 
     const html = await renderContent(template)
     console.log(html)
