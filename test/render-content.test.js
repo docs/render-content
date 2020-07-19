@@ -69,11 +69,11 @@ test('renderContent', async t => {
     }
   )
 
-  await t.test("doesn't add paragraphs to lists with newlines", async t => {
+  await t.test('removes extra newlines from lists of links', async t => {
     const template = `
-1. item one
+1. [item one](#)
 
-1. item two`
+1. [item two](#)`
 
     const html = await renderContent(template)
     console.log(html)
