@@ -80,7 +80,6 @@ test('renderContent', async t => {
         '1. item three'
 
       const html = await renderContent(template)
-      console.log({ html  })
       const $ = cheerio.load(html, { xmlMode: true })
       t.equal($('ol').length, 1)
       t.equal($('ol > li').length, 3)
