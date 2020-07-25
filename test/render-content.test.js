@@ -3,6 +3,11 @@
 const cheerio = require('cheerio')
 const renderContent = require('..')
 const { test } = require('tap')
+const { EOL } = require('os')
+
+// Use platform-specific line endings for realistic tests when templates have
+// been loaded from disk
+const nl = str => str.replace(/\n/g, EOL)
 
 test('renderContent', async t => {
   await t.test(
@@ -16,9 +21,9 @@ test('renderContent', async t => {
   )
 
   await t.test('preserves content within {% raw %} tags', async t => {
-    const template = `
+    const template = nl(`
       For example: {% raw %}{% include cool_header.html %}{% endraw %}.
-    `
+    `)
     const expected = '<p>For example: {% include cool_header.html %}.</p>'
     const output = await renderContent(template)
     t.equal(output, expected)
@@ -41,9 +46,9 @@ test('renderContent', async t => {
           }
         }
       }
-      const template = `
+      const template = nl(`
       For example: {{ site.data.reusables.fake_reusable_file.foo }}.
-    `
+    `)
       const expected = '<p>For example: {% include cool_header.html %}.</p>'
       const context = site.en
       const output = await renderContent(template, context)
@@ -55,12 +60,12 @@ test('renderContent', async t => {
   await t.test(
     'removes extra newlines to prevent lists from breaking',
     async t => {
-      const template = `
+      const template = nl(`
 1. item one
 1. item two
 
 
-1. item three`
+1. item three`)
 
       const html = await renderContent(template)
       const $ = cheerio.load(html, { xmlMode: true })
@@ -68,6 +73,16 @@ test('renderContent', async t => {
       t.equal($('ol > li').length, 3)
     }
   )
+
+  await t.test('removes extra newlines from lists of links', async t => {
+    const template = nl(`- <a>item</a>
+
+- <a>item</a>`)
+
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.equal($('ul p').length, 0)
+  })
 
   await t.test('renders text only', async t => {
     const template = 'my favorite color is {{ color }}.'
@@ -135,12 +150,12 @@ test('renderContent', async t => {
   })
 
   await t.test('does not render newlines around links in tables', async t => {
-    const template = `
+    const template = nl(`
     | Keyboard shortcut | Description
     |-----------|------------
     |<kbd>g</kbd> <kbd>c</kbd> | Go to the **Code** tab
     |<kbd>g</kbd> <kbd>i</kbd> | Go to the **Issues** tab. For more information, see "[About issues](/articles/about-issues)."
-    `
+    `)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
     t.ok(
@@ -153,11 +168,11 @@ test('renderContent', async t => {
   await t.test(
     'does not render newlines around inline code in tables',
     async t => {
-      const template = `
+      const template = nl(`
     | Package manager | formats |
     | --- | --- |
     | Python | \`requirements.txt\`, \`pipfile.lock\`
-    `
+    `)
       const html = await renderContent(template)
       const $ = cheerio.load(html, { xmlMode: true })
       t.ok(
@@ -169,25 +184,25 @@ test('renderContent', async t => {
   )
 
   await t.test('does not render newlines around emphasis in code', async t => {
-    const template = `
+    const template = nl(`
     | Qualifier        | Example
     | ------------- | -------------
     | <code>user:<em>USERNAME</em></code> | [**user:defunkt ubuntu**](https://github.com/search?q=user%3Adefunkt+ubuntu&type=Issues) matches issues with the word "ubuntu" from repositories owned by @defunkt.
-    `
+    `)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
     t.ok($.html().includes('<code>user:<em>USERNAME</em></code>'))
   })
 
   await t.test('renders code blocks with # comments', async t => {
-    const template = `
+    const template = nl(`
 1. This is a list item with code containing a comment:
   \`\`\`shell
   $ foo the bar
   # some comment here
   \`\`\`
 1. This is another list item.
-    `
+    `)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
     t.equal($('ol').length, 1)
@@ -197,7 +212,7 @@ test('renderContent', async t => {
   })
 
   await t.test('renders headings at the right level', async t => {
-    const template = `
+    const template = nl(`
 # This is a level one
 
 ## This is a level two
@@ -207,7 +222,7 @@ test('renderContent', async t => {
 #### This is a level four
 
 ##### This is a level five
-`
+`)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
     t.ok(
@@ -238,22 +253,22 @@ test('renderContent', async t => {
   })
 
   await t.test('does syntax highlighting', async t => {
-    const template = `
+    const template = nl(`
 \`\`\`js
 const example = true
 \`\`\`\`
-    `
+    `)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
     t.ok($.html().includes('<pre><code class="hljs language-js">'))
   })
 
   await t.test('does not autoguess code block language', async t => {
-    const template = `
+    const template = nl(`
 \`\`\`
 some code
 \`\`\`\
-    `
+    `)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
     t.ok($.html().includes('<pre><code>some code\n</code></pre>'))
