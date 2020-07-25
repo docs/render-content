@@ -69,16 +69,42 @@ test('renderContent', async t => {
     }
   )
 
+  await t.test(
+    'supports windows line endings',
+    async t => {
+      const template = '\r\n' +
+        '1. item one\r\n' +
+        '1. item two\r\n' +
+        '\r\n' +
+        '\r\n' +
+        '1. item three'
+
+      const html = await renderContent(template)
+      console.log({ html  })
+      const $ = cheerio.load(html, { xmlMode: true })
+      t.equal($('ol').length, 1)
+      t.equal($('ol > li').length, 3)
+    }
+  )
+
   await t.test('removes extra newlines from lists of links', async t => {
-    const template = `
-- <a>item one</a>
+    const template = `- <a>item</a>
 
-
-- <a>item two</a>`
+- <a>item</a>`
 
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
-    t.equal($('ol p').length, 0)
+    t.equal($('ul p').length, 0)
+  })
+
+  await t.test('supports windows line endings', async t => {
+    const template = '- <a>item</a>\r\n' +
+      '\r\n' +
+      '- <a>item</a>'
+
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.equal($('ul p').length, 0)
   })
 
   await t.test('renders text only', async t => {

@@ -11,9 +11,9 @@ const entities = new Entities()
 const stripHtmlComments = require('strip-html-comments')
 
 // used below to remove extra newlines in TOC lists
-const endLine = '</a>\n'
-const blankLine = '\\s*?\n*?'
-const startNextLine = '[^\\S\n]*?[-\\*] <a'
+const endLine = '</a>\r?\n'
+const blankLine = '\\s*?\[\r\n]*'
+const startNextLine = '[^\\S\r\n]*?[-\\*] <a'
 const blankLineInList = new RegExp(
   `(${endLine})${blankLine}(${startNextLine})`,
   'mg'
@@ -76,7 +76,7 @@ module.exports = async function renderContent (
 
     // this removes any extra newlines left by (now resolved) liquid
     // statements so that extra space doesn't mess with list numbering
-    template = template.replace(/\n\n\n/g, '\n\n')
+    template = template.replace(/(\r?\n){3}/g, '\n\n')
 
     let { content: html } = await hubdown(template, {
       // Disable automatic language guessing in syntax highlighting
