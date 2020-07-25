@@ -5,7 +5,7 @@ const renderContent = require('..')
 const { test } = require('tap')
 const { EOL } = require('os')
 
-// Use platform specific line endings for realistic tests when templates have
+// Use platform-specific line endings for realistic tests when templates have
 // been loaded from disk
 const nl = str => str.replace(/\n/g, EOL)
 
