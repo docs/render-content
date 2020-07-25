@@ -78,7 +78,10 @@ module.exports = async function renderContent (
     // statements so that extra space doesn't mess with list numbering
     template = template.replace(/\n\n\n/g, '\n\n')
 
-    let { content: html } = await hubdown(template)
+    let { content: html } = await hubdown(template, {
+      // Disable automatic language guessing in syntax highlighting
+      highlight: { subset: false }
+    })
 
     // Remove unwanted newlines (which appear as spaces) from inline tags inside tables
     if (html.includes('<table>')) html = removeNewlinesFromInlineTags(html)

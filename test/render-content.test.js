@@ -248,4 +248,26 @@ test('renderContent', async t => {
       )
     )
   })
+
+  await t.test('does syntax highlighting', async t => {
+    const template = `
+\`\`\`js
+const example = true
+\`\`\`\`
+    `
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.ok($.html().includes('<pre><code class="hljs language-js">'))
+  })
+
+  await t.test('does not autoguess code block language', async t => {
+    const template = `
+\`\`\`
+some code
+\`\`\`\
+    `
+    const html = await renderContent(template)
+    const $ = cheerio.load(html, { xmlMode: true })
+    t.ok($.html().includes('<pre><code>some code\n</code></pre>'))
+  })
 })
