@@ -12,7 +12,7 @@ const stripHtmlComments = require('strip-html-comments')
 
 // used below to remove extra newlines in TOC lists
 const endLine = '</a>\r?\n'
-const blankLine = '\\s*?\[\r\n]*'
+const blankLine = '\\s*?[\r\n]*'
 const startNextLine = '[^\\S\r\n]*?[-\\*] <a'
 const blankLineInList = new RegExp(
   `(${endLine})${blankLine}(${startNextLine})`,
