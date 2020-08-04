@@ -105,7 +105,7 @@ module.exports = async function renderContent (
 }
 
 function removeNewlinesFromInlineTags (html) {
-  const $ = cheerio.load(html, { xmlMode: true })
+  const $ = cheerio.load(html)
 
   // see https://cheerio.js.org/#html-htmlstring-
   $(inlineTags.join(','))
@@ -119,7 +119,7 @@ function removeNewlinesFromInlineTags (html) {
       )
     )
 
-  return $.html()
+  return $('body').html()
 }
 
 Object.assign(module.exports, {
