@@ -273,4 +273,15 @@ some code
     const $ = cheerio.load(html, { xmlMode: true })
     t.ok($.html().includes('<pre><code>some code\n</code></pre>'))
   })
+
+  await t.test('renders a line break in a table', async t => {
+    const content = `| Webhook event payload | Activity types |
+| --------------------- | -------------- |
+| [\`issues\`](/webhooks/event-payloads/#issues) | - \`opened\`<br/>- \`edited\`<br/>- \`other\` |`
+    const file = await renderContent(content)
+    t.equal(
+      file,
+      '<table><thead><tr><th>Webhook event payload</th><th>Activity types</th></tr></thead><tbody><tr><td><a href="/webhooks/event-payloads/#issues"><code>issues</code></a></td><td>- <code>opened</code><br>- <code>edited</code><br>- <code>other</code></td></tr></tbody></table>'
+    )
+  })
 })
