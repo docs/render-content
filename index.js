@@ -3,7 +3,6 @@
 const liquid = require('./liquid')
 const hubdown = require('hubdown')
 const extendMarkdown = require('./extend-markdown')
-const liquidRaw = require('./liquid-raw')
 const liquidOcticons = require('./liquid-octicons')
 const cheerio = require('cheerio')
 const Entities = require('html-entities').XmlEntities
@@ -36,14 +35,6 @@ module.exports = async function renderContent (
       template = stripHtmlComments(template.replace(/\n<!--/g, '<!--'))
     }
 
-    // obfuscate {% raw %} blocks so they won't be 'overparsed'
-    template = liquidRaw.obfuscate(template)
-
-    template = await liquid.parseAndRender(template, context)
-
-    // obfuscate any {% raw %} blocks in data files that have just been parsed into the template
-    template = liquidRaw.obfuscate(template)
-
     // this is run after the first liquid pass to
     // find any extended markdown within reusables
     template = extendMarkdown(template)
@@ -51,11 +42,6 @@ module.exports = async function renderContent (
     // this is run after the first liquid pass to
     // find any octicons within reusables
     template = liquidOcticons(template)
-
-    template = await liquid.parseAndRender(template, context)
-
-    // de-obfuscate {% raw %} blocks before the final liquid pass
-    template = liquidRaw.deobfuscate(template)
 
     template = await liquid.parseAndRender(template, context)
 
