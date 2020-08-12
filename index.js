@@ -35,6 +35,8 @@ module.exports = async function renderContent (
       template = stripHtmlComments(template.replace(/\n<!--/g, '<!--'))
     }
 
+    template = await liquid.parseAndRender(template, context)
+
     // this is run after the first liquid pass to
     // find any extended markdown within reusables
     template = extendMarkdown(template)
@@ -42,8 +44,6 @@ module.exports = async function renderContent (
     // this is run after the first liquid pass to
     // find any octicons within reusables
     template = liquidOcticons(template)
-
-    template = await liquid.parseAndRender(template, context)
 
     // this workaround loses syntax highlighting but correctly handles tags like <em> and entities like &lt;
     template = template.replace(
