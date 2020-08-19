@@ -23,6 +23,6 @@ Liquid.Condition.operators.ver_lt = (cond, left, right) => {
 
 module.exports = engine
 
-function includesNumber (input) {
-  return input && input.match(/\d+/)
+function matchesVersionString (input) {
+  return input && input.match(/(?:^|[a-z-]+@)?([\d.]+)/)
 }
