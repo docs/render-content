@@ -38,7 +38,7 @@ Liquid.Condition.operators.ver_lt = (cond, left, right) => {
 module.exports = engine
 
 function matchesVersionString (input) {
-  return input && input.match(/(?:^|[a-z-]+@)?([\d.]+)/)
+  return input && input.match(/(?:^[a-z-]+@)?([\d.]+)/)
 }
 
 function splitVersion (version) {
