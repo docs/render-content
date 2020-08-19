@@ -12,12 +12,12 @@ engine.registerFileSystem(
 // https://github.com/npm/node-semver#coercion
 
 Liquid.Condition.operators.ver_gt = (cond, left, right) => {
-  if (!includesNumber(left)) return false
+  if (!matchesVersionString(left)) return false
   return semver.gt(semver.coerce(left), semver.coerce(right))
 }
 
 Liquid.Condition.operators.ver_lt = (cond, left, right) => {
-  if (!includesNumber(left)) return false
+  if (!matchesVersionString(left)) return false
   return semver.lt(semver.coerce(left), semver.coerce(right))
 }
 
