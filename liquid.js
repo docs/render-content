@@ -12,8 +12,8 @@ engine.registerFileSystem(
 // https://github.com/npm/node-semver#coercion
 
 Liquid.Condition.operators.ver_gt = (cond, left, right) => {
-  if (!includesNumber(left)) return false
-  if (!includesNumber(right)) return false
+  if (!matchesVersionString(left)) return false
+  if (!matchesVersionString(right)) return false
 
   const [leftPlan, leftRelease] = splitVersion(left)
   const [rightPlan, rightRelease] = splitVersion(right)
@@ -24,8 +24,8 @@ Liquid.Condition.operators.ver_gt = (cond, left, right) => {
 }
 
 Liquid.Condition.operators.ver_lt = (cond, left, right) => {
-  if (!includesNumber(left)) return false
-  if (!includesNumber(right)) return false
+  if (!matchesVersionString(left)) return false
+  if (!matchesVersionString(right)) return false
 
   const [leftPlan, leftRelease] = splitVersion(left)
   const [rightPlan, rightRelease] = splitVersion(right)
@@ -37,8 +37,8 @@ Liquid.Condition.operators.ver_lt = (cond, left, right) => {
 
 module.exports = engine
 
-function includesNumber (input) {
-  return input && input.match(/\d+/)
+function matchesVersionString (input) {
+  return input && input.match(/(?:^|[a-z-]+@)?([\d.]+)/)
 }
 
 function splitVersion (version) {
