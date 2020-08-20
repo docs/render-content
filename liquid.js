@@ -38,7 +38,7 @@ Liquid.Condition.operators.ver_lt = (cond, left, right) => {
 module.exports = engine
 
 function matchesVersionString (input) {
-  return input && input.match(/(?:^[a-z-]+@)?([\d.]+)/)
+  return input && input.match(/(?:^[a-z](?:[a-z-]*[a-z])?@)?\d+(?:\.\d+)*/)
 }
 // Support new version formats where version = plan@release
 // e.g., enterprise-server@2.21, where enterprise-server is the plan and 2.21 is the release
