@@ -40,7 +40,10 @@ module.exports = engine
 function matchesVersionString (input) {
   return input && input.match(/(?:^[a-z-]+@)?([\d.]+)/)
 }
-
+// Support new version formats where version = plan@release
+// e.g., enterprise-server@2.21, where enterprise-server is the plan and 2.21 is the release
+// e.g., free-pro-team@latest, where free-pro-team is the plan and latest is the release
+// in addition to legacy formats where the version passed is simply 2.21
 function splitVersion (version) {
   // The default plan when working with versions is "enterprise-server".
   // Default to that value here to support backward compatibility from before
