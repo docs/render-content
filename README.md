@@ -46,20 +46,6 @@ Options:
 
 The [Liquid](https://ghub.io/liquid) instance used internally.
 
-### .liquidOcticons(string)
-
-Render [`Octicons`](https://ghubio/@primer/octicons) in `string`. Returns a `String`.
-
-Examples:
-
-```md
-{{ octicon-kebab-horizontal The horizontal kebab icon }}
-
-With optional color:
-
-{{ octicon-diff-removed The diff removed icon color-red }}
-```
-
 ### .extendMarkdown(string)
 
 Extend the following markdown tags:

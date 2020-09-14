@@ -4,7 +4,6 @@ const liquid = require('./liquid')
 const hubdown = require('hubdown')
 const extendMarkdown = require('./extend-markdown')
 const liquidRaw = require('./liquid-raw')
-const liquidOcticons = require('./liquid-octicons')
 const cheerio = require('cheerio')
 const Entities = require('html-entities').XmlEntities
 const entities = new Entities()
@@ -47,10 +46,6 @@ module.exports = async function renderContent (
     // this is run after the first liquid pass to
     // find any extended markdown within reusables
     template = extendMarkdown(template)
-
-    // this is run after the first liquid pass to
-    // find any octicons within reusables
-    template = liquidOcticons(template)
 
     template = await liquid.parseAndRender(template, context)
 
@@ -124,6 +119,5 @@ function removeNewlinesFromInlineTags (html) {
 
 Object.assign(module.exports, {
   liquid,
-  liquidOcticons,
   extendMarkdown
 })
