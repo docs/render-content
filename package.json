@@ -10,7 +10,6 @@
     "test:deps": "dependency-check . --missing --no-dev && dependency-check . --unused --no-dev"
   },
   "dependencies": {
-    "@primer/octicons": "^10.0.0",
     "cheerio": "^1.0.0-rc.3",
     "html-entities": "^1.2.1",
     "hubdown": "^2.6.0",
