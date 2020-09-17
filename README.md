@@ -1,4 +1,4 @@
-# @github-docs/render-content
+# @github-docs/render-content :sparkles:
 
 Markdown and Liquid rendering pipeline for Node.js
 
