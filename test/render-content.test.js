@@ -21,7 +21,9 @@ test('renderContent', async t => {
   )
 
   await t.test('preserves content within {% raw %} tags', async t => {
-    const template = nl('For example: {% raw %}{% include cool_header.html %}{% endraw %}.')
+    const template = nl(
+      'For example: {% raw %}{% include cool_header.html %}{% endraw %}.'
+    )
     const expected = '<p>For example: {% include cool_header.html %}.</p>'
     const output = await renderContent(template)
     t.equal(output, expected)
@@ -121,10 +123,10 @@ test('renderContent', async t => {
 
   await t.test('does not render newlines around links in tables', async t => {
     const template = nl(`
-    | Keyboard shortcut | Description
-    |-----------|------------
-    |<kbd>g</kbd> <kbd>c</kbd> | Go to the **Code** tab
-    |<kbd>g</kbd> <kbd>i</kbd> | Go to the **Issues** tab. For more information, see "[About issues](/articles/about-issues)."
+| Keyboard shortcut | Description
+|-----------|------------
+|<kbd>g</kbd> <kbd>c</kbd> | Go to the **Code** tab
+|<kbd>g</kbd> <kbd>i</kbd> | Go to the **Issues** tab. For more information, see "[About issues](/articles/about-issues)."
     `)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
@@ -139,9 +141,9 @@ test('renderContent', async t => {
     'does not render newlines around inline code in tables',
     async t => {
       const template = nl(`
-    | Package manager | formats |
-    | --- | --- |
-    | Python | \`requirements.txt\`, \`pipfile.lock\`
+| Package manager | formats |
+| --- | --- |
+| Python | \`requirements.txt\`, \`pipfile.lock\`
     `)
       const html = await renderContent(template)
       const $ = cheerio.load(html, { xmlMode: true })
@@ -155,9 +157,9 @@ test('renderContent', async t => {
 
   await t.test('does not render newlines around emphasis in code', async t => {
     const template = nl(`
-    | Qualifier        | Example
-    | ------------- | -------------
-    | <code>user:<em>USERNAME</em></code> | [**user:defunkt ubuntu**](https://github.com/search?q=user%3Adefunkt+ubuntu&type=Issues) matches issues with the word "ubuntu" from repositories owned by @defunkt.
+| Qualifier        | Example
+| ------------- | -------------
+| <code>user:<em>USERNAME</em></code> | [**user:defunkt ubuntu**](https://github.com/search?q=user%3Adefunkt+ubuntu&type=Issues) matches issues with the word "ubuntu" from repositories owned by @defunkt.
     `)
     const html = await renderContent(template)
     const $ = cheerio.load(html, { xmlMode: true })
