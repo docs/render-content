@@ -30,34 +30,6 @@ test('renderContent', async t => {
   })
 
   await t.test(
-    'preserves content within {% raw %} tags in data files',
-    async t => {
-      // see https://github.com/github/help-docs/issues/10299
-      const site = {
-        en: {
-          site: {
-            data: {
-              reusables: {
-                fake_reusable_file: {
-                  foo: '{% raw %}{% include cool_header.html %}{% endraw %}'
-                }
-              }
-            }
-          }
-        }
-      }
-      const template = nl(`
-      For example: {{ site.data.reusables.fake_reusable_file.foo }}.
-    `)
-      const expected = '<p>For example: {% include cool_header.html %}.</p>'
-      const context = site.en
-      const output = await renderContent(template, context)
-
-      t.equal(output, expected)
-    }
-  )
-
-  await t.test(
     'removes extra newlines to prevent lists from breaking',
     async t => {
       const template = nl(`
