@@ -21,9 +21,7 @@ test('renderContent', async t => {
   )
 
   await t.test('preserves content within {% raw %} tags', async t => {
-    const template = nl(`
-      For example: {% raw %}{% include cool_header.html %}{% endraw %}.
-    `)
+    const template = nl('For example: {% raw %}{% include cool_header.html %}{% endraw %}.')
     const expected = '<p>For example: {% include cool_header.html %}.</p>'
     const output = await renderContent(template)
     t.equal(output, expected)
