@@ -2,7 +2,6 @@
 
 const liquid = require('./liquid')
 const hubdown = require('hubdown')
-const extendMarkdown = require('./extend-markdown')
 const cheerio = require('cheerio')
 const Entities = require('html-entities').XmlEntities
 const entities = new Entities()
@@ -35,10 +34,6 @@ module.exports = async function renderContent (
     }
 
     template = await liquid.parseAndRender(template, context)
-
-    // this is run after the first liquid pass to
-    // find any extended markdown within reusables
-    template = extendMarkdown(template)
 
     // this workaround loses syntax highlighting but correctly handles tags like <em> and entities like &lt;
     template = template.replace(
@@ -104,6 +99,5 @@ function removeNewlinesFromInlineTags (html) {
 }
 
 Object.assign(module.exports, {
-  liquid,
-  extendMarkdown
+  liquid
 })
