@@ -10,10 +10,14 @@
     "test:deps": "dependency-check . --missing --no-dev && dependency-check . --unused --no-dev"
   },
   "dependencies": {
+    "@primer/octicons": "^11.0.0",
     "cheerio": "^1.0.0-rc.3",
+    "hast-util-from-parse5": "^6.0.0",
+    "hastscript": "^6.0.0",
     "html-entities": "^1.2.1",
     "hubdown": "^2.6.0",
     "liquid": "^5.0.0",
+    "parse5": "^6.0.1",
     "semver": "^5.7.1",
     "strip-html-comments": "^1.0.0"
   },
