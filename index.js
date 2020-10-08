@@ -1,6 +1,7 @@
 'use strict'
 
 const liquid = require('./liquid')
+const codeHeader = require('./plugins/code-header')
 const hubdown = require('hubdown')
 const cheerio = require('cheerio')
 const Entities = require('html-entities').XmlEntities
@@ -56,7 +57,8 @@ module.exports = async function renderContent (
 
     let { content: html } = await hubdown(template, {
       // Disable automatic language guessing in syntax highlighting
-      highlight: { subset: false }
+      highlight: { subset: false },
+      runBefore: [codeHeader]
     })
 
     // Remove unwanted newlines (which appear as spaces) from inline tags inside tables
