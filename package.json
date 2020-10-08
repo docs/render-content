@@ -18,6 +18,7 @@
     "hubdown": "^2.6.0",
     "liquid": "^5.0.0",
     "parse5": "^6.0.1",
+    "remark-code-extra": "^1.0.1",
     "semver": "^5.7.1",
     "strip-html-comments": "^1.0.0"
   },

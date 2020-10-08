@@ -3,6 +3,7 @@
 const liquid = require('./liquid')
 const codeHeader = require('./plugins/code-header')
 const hubdown = require('hubdown')
+const remarkCodeExtra = require('remark-code-extra')
 const cheerio = require('cheerio')
 const Entities = require('html-entities').XmlEntities
 const entities = new Entities()
@@ -58,7 +59,9 @@ module.exports = async function renderContent (
     let { content: html } = await hubdown(template, {
       // Disable automatic language guessing in syntax highlighting
       highlight: { subset: false },
-      runBefore: [codeHeader]
+      runBefore: [[
+        remarkCodeExtra, { transform: codeHeader }
+      ]]
     })
 
     // Remove unwanted newlines (which appear as spaces) from inline tags inside tables
