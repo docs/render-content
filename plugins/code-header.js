@@ -65,6 +65,7 @@ const LANGUAGE_MAP = {
   rst: 'reStructuredText',
   xbm: 'X BitMap',
   xpm: 'X PixMap',
+  yaml: 'YAML',
   yml: 'YAML',
 
   // Unofficial languages
@@ -76,6 +77,14 @@ const LANGUAGE_MAP = {
  * Adds a bar above code blocks that shows the language and a copy button
  */
 module.exports = function addCodeHeader (node) {
+  const hasCopy = node.lang && node.lang.endsWith('{copy}')
+
+  if (hasCopy && node.lang) {
+    node.lang = node.lang.replace(/\{copy\}$/, '')
+  } else {
+    return
+  }
+
   const language = LANGUAGE_MAP[node.lang] || node.lang || 'Code'
 
   const btnIconHtml = octicons.clippy.toSVG()
