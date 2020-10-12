@@ -77,10 +77,10 @@ const LANGUAGE_MAP = {
  * Adds a bar above code blocks that shows the language and a copy button
  */
 module.exports = function addCodeHeader (node) {
-  const hasCopy = node.lang && node.lang.endsWith('{copy}')
+  const hasCopy = node.lang && node.lang.endsWith('{:copy}')
 
   if (hasCopy && node.lang) {
-    node.lang = node.lang.replace(/\{copy\}$/, '')
+    node.lang = node.lang.replace(/\{:copy\}$/, '')
   } else {
     return
   }
