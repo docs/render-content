@@ -46,37 +46,19 @@ Options:
 
 The [Liquid](https://ghub.io/liquid) instance used internally.
 
-### .extendMarkdown(string)
+### Code block headers
 
-Extend the following markdown tags:
+You can add a header to code blocks by adding the `{:copy}` annotation after the code fences:
 
-- `mac`
-- `windows`
-- `linux`
-- `all`
-- `tip` (with extra styling)
-- `note` (with extra styling)
-- `warning` (with extra styling)
-- `danger` (with extra styling)
+    ```js{:copy}
+    const copyMe = true
+    ```
 
-From
+This renders:
 
+![image](https://user-images.githubusercontent.com/10660468/95881747-e96c6900-0d46-11eb-9abf-1e8ad16c7646.png)
 
-```md
-{{#TAG}}
-content
-{{/TAG}}
-```
-
-To
-
-```html
-<div class="extended-markdown TAG EXTRA_STYLING">
-content
-</div>
-```
-
-Returns a `String`.
+The un-highlighted text is available as `button.js-btn-copy`'s `data-clipboard-text` attribute.
 
 ## License
 
