@@ -91,7 +91,8 @@ module.exports = function addCodeHeader (node) {
   const btnIconAst = parse5.parse(String(btnIconHtml))
   const btnIcon = fromParse5(btnIconAst, btnIconHtml)
 
-  const header = h('header',
+  const header = h(
+    'header',
     {
       class: [
         'd-flex',
@@ -102,18 +103,26 @@ module.exports = function addCodeHeader (node) {
         'rounded-top-1',
         'border'
       ]
-    }, [
+    },
+    [
       h('span', language),
       h(
         'button',
         {
-          class: ['js-btn-copy', 'btn', 'btn-sm', 'tooltipped', 'tooltipped-nw'],
+          class: [
+            'js-btn-copy',
+            'btn',
+            'btn-sm',
+            'tooltipped',
+            'tooltipped-nw'
+          ],
           'data-clipboard-text': node.value,
           'aria-label': 'Copy code to clipboard'
         },
         btnIcon
       )
-    ])
+    ]
+  )
 
   return {
     before: [header]
