@@ -1,3 +1,9 @@
+# This repo has been archived.
+
+The code shown here has been moved into the [github/docs](https://github.com/github/docs) repository, to make it easier to use and change.
+
+---
+
 # @github-docs/render-content
 
 Markdown and Liquid rendering pipeline for Node.js
